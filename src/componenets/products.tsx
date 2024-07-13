@@ -15,6 +15,7 @@ interface ProductsProps {
     cart:boolean
 }
 
+
 export const Products: React.FC<ProductsProps> = ({ setCart,cart }) => {
     const dispatch = useDispatch<AppDispatch>()
     const { product } = useSelector((state: RootState) => state.product)
@@ -65,10 +66,12 @@ export const Products: React.FC<ProductsProps> = ({ setCart,cart }) => {
                 </div>
                 <div className="w-full grid sm:grid-cols-2 md:grid-cols-5 mt-4 justify-center">
                     {
-                        Array.isArray(product) ? product.map((item, index) => (
+                        Array.isArray(product) ? product.map((item, index) =>{
+                            const imagePath = `/src/${item.image}`
+                            return (
                             <div key={index} className="flex p-4 mb-4 relative flex-col border border-black/50 h-[420px] rounded shadow-sm items-center gap-2 w-[260px] pt-2">
                                 <IoHeartOutline onClick={() => likeProduct(String(item._id))} className={`absolute top-4 right-8 text-3xl cursor-pointer ${item.liked ? "text-red-500" : ""}`} />
-                                <img src={`src${item.image}`} alt={item.name} className="w-[80%] flex" />
+                                <img src={imagePath} alt={item.name} className="w-[80%] flex" />
                                 <span className="text-xl font-bold w-full pl-6">{item.name}</span>
                                 <p className="w-[80%]">{item.description}</p>
                                 <span className="w-[80%] text-lg font-bold flex items-center justify-between">
@@ -83,7 +86,7 @@ export const Products: React.FC<ProductsProps> = ({ setCart,cart }) => {
                                     <BsHandbag />Add To Cart
                                 </button>
                             </div>
-                        )) : (
+                        )}): (
                             <>
                                 <span>No Products Available</span>
                             </>
